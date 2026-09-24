@@ -17,7 +17,7 @@ export function BagIcon({ className = "size-5" }: { className?: string }) {
   );
 }
 
-/** Floating bag button, "added" toast and the slide-in bag drawer. */
+/** "Added" toast and the slide-in bag drawer. */
 export default function Bag() {
   const { lines, count, subtotal, open, setOpen, setQty, clear, lastAdded } = useCart();
   const [placed, setPlaced] = useState<string | null>(null);
@@ -59,7 +59,7 @@ export default function Bag() {
 
   return (
     <>
-      {/* Floating bag + toast */}
+      {/* "Added" toast */}
       <div data-overlay className="pointer-events-none fixed right-4 bottom-4 z-50 flex flex-col items-end gap-2 sm:right-6 sm:bottom-6">
         <p
           role="status"
@@ -69,20 +69,6 @@ export default function Bag() {
         >
           {toast ? `Added ${toast}` : " "}
         </p>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label={`Open bag, ${count} item${count === 1 ? "" : "s"}`}
-          // Phones use the bag in the nav instead; a floating button would cover page CTAs.
-          className={`btn pointer-events-auto bg-ink text-paper shadow-[4px_4px_0_var(--color-tomato)]! transition-all duration-300 max-sm:hidden! ${
-            count > 0 ? "translate-y-0 opacity-100" : "pointer-events-none! translate-y-4 opacity-0"
-          }`}
-        >
-          <BagIcon />
-          <span key={count} className="animate-[fade-up_.35s_ease]">
-            {count} · {money(subtotal)}
-          </span>
-        </button>
       </div>
 
       {/* Drawer */}
