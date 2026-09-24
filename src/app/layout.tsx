@@ -4,6 +4,7 @@ import "lenis/dist/lenis.css";
 import "./globals.css";
 import Bag from "@/components/Bag";
 import SmoothScroll from "@/components/SmoothScroll";
+import ScrollButtons from "@/components/ScrollButtons";
 import { CartProvider } from "@/lib/cart";
 
 const bricolage = Bricolage_Grotesque({
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <CartProvider>
           {children}
           <Bag />
+          <ScrollButtons />
         </CartProvider>
       </body>
     </html>
