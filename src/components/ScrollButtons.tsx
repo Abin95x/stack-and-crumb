@@ -19,9 +19,9 @@ export default function ScrollButtons() {
         setVisibleButton("up");
       } else {
         if (currentScrollY > lastScrollY) {
-          setVisibleButton("down");
-        } else if (currentScrollY < lastScrollY) {
           setVisibleButton("up");
+        } else if (currentScrollY < lastScrollY) {
+          setVisibleButton("down");
         }
       }
       lastScrollY = currentScrollY;
