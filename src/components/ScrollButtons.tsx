@@ -4,17 +4,31 @@ import { useEffect, useState } from "react";
 import { getLenis } from "@/lib/lenis";
 
 export default function ScrollButtons() {
-  const [show, setShow] = useState(false);
+  const [visibleButton, setVisibleButton] = useState<"up" | "down">("down");
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      // Show buttons if the page is scrollable and we have scrolled a bit, or just always show them?
-      // "add a scroll down button and scroll up button after analizing int"
-      // Let's just always show them, but maybe hide the top one when at the very top.
-      setShow(true);
+      const currentScrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+      if (currentScrollY <= 0) {
+        setVisibleButton("down");
+      } else if (currentScrollY >= maxScroll - 10) {
+        setVisibleButton("up");
+      } else {
+        if (currentScrollY > lastScrollY) {
+          setVisibleButton("down");
+        } else if (currentScrollY < lastScrollY) {
+          setVisibleButton("up");
+        }
+      }
+      lastScrollY = currentScrollY;
     };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -36,15 +50,15 @@ export default function ScrollButtons() {
     }
   };
 
-  if (!show) return null;
-
   return (
-    <div className="pointer-events-none fixed left-4 bottom-4 z-50 flex flex-col gap-2 sm:left-6 sm:bottom-6 max-sm:hidden">
+    <div className="pointer-events-none fixed left-4 bottom-4 z-50 flex flex-col gap-2 sm:left-6 sm:bottom-6">
       <button
         type="button"
         onClick={scrollToTop}
         aria-label="Scroll to top"
-        className="pointer-events-auto flex size-10 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink shadow-[2px_2px_0_var(--color-ink)] transition-transform hover:translate-y-[-2px] hover:shadow-[2px_4px_0_var(--color-ink)]"
+        className={`pointer-events-auto flex size-10 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink shadow-[2px_2px_0_var(--color-ink)] transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[2px_4px_0_var(--color-ink)] ${
+          visibleButton === "up" ? "scale-100 opacity-100" : "absolute scale-0 opacity-0 pointer-events-none"
+        }`}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="m18 15-6-6-6 6"/>
@@ -54,7 +68,9 @@ export default function ScrollButtons() {
         type="button"
         onClick={scrollToBottom}
         aria-label="Scroll to bottom"
-        className="pointer-events-auto flex size-10 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink shadow-[2px_2px_0_var(--color-ink)] transition-transform hover:translate-y-[2px] hover:shadow-[2px_4px_0_var(--color-ink)]"
+        className={`pointer-events-auto flex size-10 items-center justify-center rounded-full border-2 border-ink bg-paper text-ink shadow-[2px_2px_0_var(--color-ink)] transition-all duration-300 hover:translate-y-[2px] hover:shadow-[2px_4px_0_var(--color-ink)] ${
+          visibleButton === "down" ? "scale-100 opacity-100" : "absolute scale-0 opacity-0 pointer-events-none"
+        }`}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="m6 9 6 6 6-6"/>
