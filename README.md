@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stack & Crumb
 
-## Getting Started
+Concept site for a burger & long-roll shop, inspired by the structure of a sandwich-shop landing page
+but with original brand, copy and artwork. Every name, price, address and phone number is fictional.
 
-First, run the development server:
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Next.js 16 (App Router, TypeScript) · Tailwind CSS 4 · three.js via @react-three/fiber + drei ·
+GSAP ScrollTrigger · Lenis smooth scroll.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How the animation works
 
-## Learn More
+All food is procedural geometry — no downloaded models or photos.
 
-To learn more about Next.js, take a look at the following resources:
+- `src/components/three/geometry.ts` — buns, patties, cheese, lettuce, bacon, egg (lathes + noise), the
+  hinged long roll, cilantro sprigs.
+- `src/components/three/textures.ts` — canvas-drawn textures (tomato and pickle cross-sections, crust).
+- `src/components/three/detail.ts` — shader patch that adds object-space micro-detail to any material:
+  band-limited noise bump, colour variation, char patches, crumb/meat pores, roughness breakup.
+- Lighting (`Stage.tsx`) is procedural softboxes + key/rim lights with Neutral tone mapping. An HDRI
+  environment and SSAO post-processing were tried and removed: both crashed the WebGL context on an
+  Intel UHD 620.
+- `src/components/three/HeroScene.tsx` — scroll-driven: ingredients float scattered, then fly in one by one
+  and squash onto the stack. Timings live in `src/lib/hero.ts`.
+- `src/components/three/Roll.tsx` + `RollScene.tsx` — the roll opens on its hinge, fillings rain in as
+  instanced meshes (`FlyingInstances.tsx`), then it closes. Timeline in `src/lib/roll.ts`.
+- `src/components/three/BuilderScene.tsx` — interactive "stack your own"; layers drop in on a spring.
+- `src/lib/useScrollProgress.ts` — maps a tall section's scroll to 0..1 (read inside `useFrame`, no re-renders).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Performance
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Canvases render **on demand** (`Stage.tsx`): full frame rate while scrolling, moving the pointer, or
+  while a scene calls `useWake()`; ~30 fps for idle motion; nothing when off-screen.
+- Shadow maps refresh every frame only while active; floor shadows are a baked blob (`SoftShadow.tsx`)
+  instead of a per-frame depth render + blur.
+- The hero canvas mounts first; the others mount in idle time (or when approached) and precompile their
+  shaders with `compileAsync`, so no compile stall lands mid-scroll.
+- Instanced fillings skip matrix uploads when the scroll timeline hasn't moved.
+- No `backdrop-filter`, CSS `blur()` or blend modes over the live canvases (they force a full
+  recomposite every frame); glows are radial gradients.
+- Scroll: Lenis driven by GSAP's ticker (one rAF loop), `ScrollTrigger.ignoreMobileResize`.
 
-## Deploy on Vercel
+Measure against a production build (`npm run build && npm start`); `next dev` is several times slower.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Images
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `public/art/*.svg` — hand-written SVG illustrations (mascot, stamp, sides, drinks, map, pattern tile).
+- `public/menu/*.png` — menu photos rendered from the 3D models. In dev, open `/studio/<item-id>`
+  (e.g. `/studio/foreman`) — it renders the item on a transparent canvas and sets `body[data-ready]`
+  when it's safe to screenshot at 900×900 with a transparent background. The route 404s in production.

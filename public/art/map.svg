@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 440">
+  <rect width="600" height="440" fill="#eadfc8"/>
+  <path d="M0 330 C120 300 180 380 300 350 S480 290 600 320 V440 H0 Z" fill="#b9d3c6"/>
+  <path d="M0 348 C120 318 180 398 300 368 S480 308 600 338" fill="none" stroke="#f4ecdd" stroke-width="3" stroke-dasharray="10 12"/>
+  <g fill="#dccfb3">
+    <rect x="40" y="40" width="120" height="90" rx="10"/><rect x="200" y="30" width="150" height="100" rx="10"/>
+    <rect x="390" y="50" width="170" height="80" rx="10"/><rect x="40" y="170" width="110" height="110" rx="10"/>
+    <rect x="390" y="170" width="80" height="100" rx="10"/><rect x="500" y="170" width="70" height="110" rx="10"/>
+  </g>
+  <rect x="190" y="170" width="160" height="110" rx="12" fill="#a8c07a"/>
+  <g fill="#7a9a3a"><circle cx="220" cy="200" r="12"/><circle cx="250" cy="250" r="16"/><circle cx="310" cy="205" r="14"/><circle cx="320" cy="255" r="10"/></g>
+  <g stroke="#f4ecdd" stroke-width="18" stroke-linecap="round" fill="none">
+    <path d="M0 150 H600"/><path d="M175 0 V320"/><path d="M370 0 V310"/><path d="M480 150 V300"/>
+  </g>
+  <g stroke="#15231a" stroke-width="2" stroke-dasharray="1 12" stroke-linecap="round" fill="none" opacity=".5">
+    <path d="M0 150 H600"/><path d="M175 0 V320"/><path d="M370 0 V310"/>
+  </g>
+  <g font-family="system-ui, sans-serif" font-weight="700" font-size="13" letter-spacing="2" fill="#15231a" opacity=".55">
+    <text x="20" y="142">FOUNDRY ROW</text>
+    <text x="165" y="300" transform="rotate(-90 165 300)">MILL ST</text>
+    <text x="236" y="228">OLD YARD PARK</text>
+    <text x="40" y="410">RIVER WALK</text>
+  </g>
+  <g transform="translate(370 150)">
+    <ellipse cx="0" cy="4" rx="22" ry="7" fill="#15231a" opacity=".2"/>
+    <path d="M0 0 C-10 -18 -30 -30 -30 -54 A30 30 0 1 1 30 -54 C30 -30 10 -18 0 0 Z" fill="#e2462c" stroke="#15231a" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="0" cy="-54" r="13" fill="#f4ecdd" stroke="#15231a" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,163 @@
+import type { LayerKind } from "@/components/three/Ingredients";
+import type { RollVariant } from "@/components/three/Roll";
+
+export type Render = { type: "burger"; layers: LayerKind[] } | { type: "roll"; variant: RollVariant };
+
+export type MenuItem = {
+  id: string;
+  name: string;
+  price: number;
+  blurb: string;
+  tags?: ("veg" | "spicy" | "new" | "fan fave")[];
+  image: string;
+  /** Items with a render are photographed from the 3D kitchen via /studio. */
+  render?: Render;
+};
+
+export type MenuCategory = { id: string; label: string; note: string; items: MenuItem[] };
+
+export const MENU: MenuCategory[] = [
+  {
+    id: "burgers",
+    label: "Burgers",
+    note: "Smashed to order on a 260°C flat-top. Every burger comes on a toasted potato bun.",
+    items: [
+      {
+        id: "foreman",
+        name: "The Foreman",
+        price: 14.5,
+        blurb: "Two smashed chuck patties, aged cheddar, half-sours, shaved red onion, butter lettuce, tomato, Crumb sauce.",
+        tags: ["fan fave"],
+        image: "/menu/foreman.png",
+        render: {
+          type: "burger",
+          layers: ["bunBottom", "lettuce", "tomato", "patty", "cheese", "patty", "cheese", "pickles", "onion", "bunTop"],
+        },
+      },
+      {
+        id: "sunny-side",
+        name: "Sunny Side",
+        price: 15,
+        blurb: "One patty, cheddar, crisp maple bacon and a jammy fried egg. Brunch, but make it lunch.",
+        tags: ["new"],
+        image: "/menu/sunny-side.png",
+        render: { type: "burger", layers: ["bunBottom", "lettuce", "patty", "cheese", "bacon", "egg", "bunTop"] },
+      },
+      {
+        id: "garden-variety",
+        name: "Garden Variety",
+        price: 13,
+        blurb: "Beet & black bean patty, smoky mayo, pickles, tomato, red onion and a big leaf of lettuce.",
+        tags: ["veg"],
+        image: "/menu/garden-variety.png",
+        render: { type: "burger", layers: ["bunBottom", "lettuce", "tomato", "vegPatty", "pickles", "onion", "bunTop"] },
+      },
+      {
+        id: "plain-jane",
+        name: "The Plain Jane",
+        price: 10.5,
+        blurb: "One patty, one slice of cheese, a few pickles. Sometimes simple is the whole point.",
+        image: "/menu/plain-jane.png",
+        render: { type: "burger", layers: ["bunBottom", "patty", "cheese", "pickles", "bunTop"] },
+      },
+    ],
+  },
+  {
+    id: "rolls",
+    label: "Long Rolls",
+    note: "Our crackly rice-flour roll, split down one side and loaded end to end.",
+    items: [
+      {
+        id: "lemongrass-chicken",
+        name: "Lemongrass Chicken",
+        price: 12.5,
+        blurb: "Charred lemongrass chicken thigh, chili-lime mayo, quick-pickled carrot & daikon, cucumber, cilantro.",
+        tags: ["fan fave"],
+        image: "/menu/lemongrass-chicken.png",
+        render: { type: "roll", variant: "chicken" },
+      },
+      {
+        id: "five-spice-pork",
+        name: "Five-Spice Pork",
+        price: 13,
+        blurb: "Sticky five-spice pork shoulder, extra bird's-eye chili, pickles, cucumber and a fistful of herbs.",
+        tags: ["spicy"],
+        image: "/menu/five-spice-pork.png",
+        render: { type: "roll", variant: "pork" },
+      },
+      {
+        id: "crispy-tofu",
+        name: "Crispy Tofu",
+        price: 11.5,
+        blurb: "Golden tofu glazed in soy-ginger, sesame mayo, pickled veg, cucumber and cilantro.",
+        tags: ["veg"],
+        image: "/menu/crispy-tofu.png",
+        render: { type: "roll", variant: "tofu" },
+      },
+    ],
+  },
+  {
+    id: "sides",
+    label: "Sides",
+    note: "Built to be shared. Usually aren't.",
+    items: [
+      {
+        id: "crinkle-fries",
+        name: "Crinkle Fries",
+        price: 5,
+        blurb: "Twice-fried, ridged for maximum dip capacity. Seasoned with our smoked salt.",
+        image: "/art/fries.svg",
+      },
+      {
+        id: "pickle-plate",
+        name: "Pickle Plate",
+        price: 4,
+        blurb: "A rotating jar of whatever's been brining this week. Ask what's in it.",
+        tags: ["veg"],
+        image: "/art/pickle-jar.svg",
+      },
+      {
+        id: "sesame-slaw",
+        name: "Sesame Slaw",
+        price: 4.5,
+        blurb: "Red cabbage, carrot and scallion in a toasted sesame dressing.",
+        tags: ["veg"],
+        image: "/art/slaw.svg",
+      },
+    ],
+  },
+  {
+    id: "sips",
+    label: "Sips",
+    note: "Cold, sweet and a little bit strong.",
+    items: [
+      {
+        id: "iced-coffee",
+        name: "Condensed Milk Iced Coffee",
+        price: 5.5,
+        blurb: "Dark-roast drip over sweet condensed milk and a mountain of ice.",
+        tags: ["fan fave"],
+        image: "/art/iced-coffee.svg",
+      },
+      {
+        id: "lemongrass-soda",
+        name: "Lemongrass Soda",
+        price: 4.5,
+        blurb: "House lemongrass-lime syrup, sparkling water, a slap of mint.",
+        image: "/art/lemongrass-soda.svg",
+      },
+      {
+        id: "malt-shake",
+        name: "Burnt Honey Malt Shake",
+        price: 7,
+        blurb: "Vanilla soft-serve blended with malt and honey we cook almost too far.",
+        tags: ["new"],
+        image: "/art/shake.svg",
+      },
+    ],
+  },
+];
+
+export const RENDERABLE = MENU.flatMap((c) => c.items).filter((i) => i.render);
+
+export const money = (n: number) => `$${n.toFixed(2)}`;

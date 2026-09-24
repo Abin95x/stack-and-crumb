@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" stroke="#15231a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+  <circle cx="120" cy="120" r="104" fill="#7a9a3a" stroke="none" opacity=".3"/>
+  <rect x="76" y="30" width="88" height="26" rx="6" fill="#e2462c"/>
+  <path d="M70 56 H170 C182 56 186 66 186 78 V196 C186 208 178 216 166 216 H74 C62 216 54 208 54 196 V78 C54 66 58 56 70 56 Z" fill="#d7e4b8" fill-opacity=".9"/>
+  <g fill="#6b8a2e">
+    <rect x="72" y="90" width="26" height="110" rx="13" transform="rotate(-8 85 145)"/>
+    <rect x="104" y="80" width="28" height="122" rx="14" transform="rotate(4 118 141)"/>
+    <rect x="140" y="92" width="26" height="108" rx="13" transform="rotate(10 153 146)"/>
+  </g>
+  <g fill="#a9c05a" stroke="none">
+    <circle cx="84" cy="120" r="3"/><circle cx="90" cy="160" r="3"/><circle cx="116" cy="110" r="3"/>
+    <circle cx="120" cy="150" r="3"/><circle cx="150" cy="130" r="3"/><circle cx="155" cy="172" r="3"/>
+  </g>
+  <path d="M150 70 q14 4 18 20" stroke="#fff" stroke-width="6" opacity=".7"/>
+  <rect x="84" y="138" width="72" height="34" rx="6" fill="#f4ecdd"/>
+  <text x="120" y="161" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="15" fill="#15231a" stroke="none">SOURS</text>
+</svg>
