@@ -29,6 +29,13 @@ html {
   scroll-behavior: auto;
 }
 
+html,
+body {
+  /* Nothing may widen the page on phones: a wider layout viewport stretches the
+     fixed nav past the screen edge. clip (unlike hidden) keeps position: sticky working. */
+  overflow-x: clip;
+}
+
 body {
   background: var(--color-paper);
   color: var(--color-ink);

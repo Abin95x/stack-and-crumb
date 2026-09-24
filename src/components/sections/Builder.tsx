@@ -11,18 +11,18 @@ const BuilderScene = dynamic(() => import("@/components/three/BuilderScene"), { 
 type Option = { kind: LayerKind; label: string; price: number; kcal: number; swatch: string };
 
 const OPTIONS: Option[] = [
-  { kind: "patty", label: "Smashed patty", price: 3.5, kcal: 290, swatch: "#5b3219" },
-  { kind: "vegPatty", label: "Beet patty", price: 3.5, kcal: 210, swatch: "#7c2f3a" },
-  { kind: "cheese", label: "Cheddar", price: 1, kcal: 110, swatch: "#f5ae1c" },
-  { kind: "bacon", label: "Maple bacon", price: 2, kcal: 90, swatch: "#b8453a" },
-  { kind: "egg", label: "Fried egg", price: 1.5, kcal: 90, swatch: "#fbf3de" },
-  { kind: "lettuce", label: "Lettuce", price: 0.5, kcal: 5, swatch: "#7fb843" },
-  { kind: "tomato", label: "Tomato", price: 0.75, kcal: 10, swatch: "#d8361f" },
-  { kind: "pickles", label: "Pickles", price: 0.5, kcal: 5, swatch: "#6b8a2e" },
-  { kind: "onion", label: "Red onion", price: 0.5, kcal: 10, swatch: "#a2477d" },
+  { kind: "patty", label: "Smashed patty", price: 119, kcal: 290, swatch: "#5b3219" },
+  { kind: "vegPatty", label: "Beet patty", price: 109, kcal: 210, swatch: "#7c2f3a" },
+  { kind: "cheese", label: "Cheddar", price: 39, kcal: 110, swatch: "#f5ae1c" },
+  { kind: "bacon", label: "Maple bacon", price: 79, kcal: 90, swatch: "#b8453a" },
+  { kind: "egg", label: "Fried egg", price: 49, kcal: 90, swatch: "#fbf3de" },
+  { kind: "lettuce", label: "Lettuce", price: 15, kcal: 5, swatch: "#7fb843" },
+  { kind: "tomato", label: "Tomato", price: 20, kcal: 10, swatch: "#d8361f" },
+  { kind: "pickles", label: "Pickles", price: 15, kcal: 5, swatch: "#6b8a2e" },
+  { kind: "onion", label: "Red onion", price: 15, kcal: 10, swatch: "#a2477d" },
 ];
 
-const BUN = { price: 4, kcal: 220 };
+const BUN = { price: 129, kcal: 220 };
 const MAX_LAYERS = 12;
 const byKind = Object.fromEntries(OPTIONS.map((o) => [o.kind, o])) as Record<LayerKind, Option>;
 

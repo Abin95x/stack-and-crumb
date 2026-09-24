@@ -61,14 +61,16 @@ function Burger({ progress }: { progress: RefObject<number> }) {
     if (born.current === null) born.current = time;
     const intro = easeOutCubic(segment(time - born.current, 0.1, 1.6));
 
-    // Frame the burger: to the right on wide screens, centred and smaller on phones.
+    // Frame the burger: to the right on wide screens. On portrait screens it sits
+    // in the band between the headline (top ~40%) and the caption card (bottom
+    // ~25%), sized so the finished stack fits that band.
     const wide = viewport.aspect > 1.1;
     const scale = wide
       ? Math.min((viewport.height * 0.5) / height, (viewport.width * 0.3) / 2.6)
-      : Math.min((viewport.height * 0.36) / height, (viewport.width * 0.62) / 2.6);
+      : Math.min((viewport.height * 0.27) / height, (viewport.width * 0.58) / 2.6);
     const r = root.current!;
     r.scale.setScalar(scale);
-    r.position.set(wide ? viewport.width * 0.19 : 0, wide ? -0.1 : -viewport.height * 0.12, 0);
+    r.position.set(wide ? viewport.width * 0.19 : 0, wide ? -0.1 : -viewport.height * 0.03, 0);
 
     camera.position.x = damp(camera.position.x, pointer.x * 0.35, 3, dt);
     camera.position.y = damp(camera.position.y, 1.4 + pointer.y * 0.2, 3, dt);
@@ -89,7 +91,8 @@ function Burger({ progress }: { progress: RefObject<number> }) {
       const [sx, sy, sz] = SCATTER[i];
 
       const fx = sx * spread * (wide ? 1 : 0.62) + Math.sin(time * 0.9 + i * 1.7) * 0.12;
-      const fy = sy * spread + Math.sin(time * 1.2 + i * 2.3) * 0.16;
+      // On portrait screens keep the float below the headline.
+      const fy = (wide ? sy : sy * 0.6 - 0.3) * spread + Math.sin(time * 1.2 + i * 2.3) * 0.16;
       const fz = sz + Math.cos(time * 0.8 + i) * 0.1;
       g.position.set(lerp(fx, 0, e), lerp(fy, offsets[i], e) + Math.sin(Math.PI * t) * 0.7, lerp(fz, 0, e));
 

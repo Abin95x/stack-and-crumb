@@ -16,7 +16,7 @@ const FACTS = [
 
 export default function Story() {
   return (
-    <section id="bread" className="relative bg-paper py-28 sm:py-36">
+    <section id="bread" className="relative overflow-x-clip bg-paper py-28 sm:py-36">
       <div className="mx-auto grid max-w-7xl gap-16 px-5 sm:px-8 lg:grid-cols-[1.1fr_1fr]">
         <div>
           <p data-reveal className="eyebrow mb-4 text-tomato">
@@ -57,7 +57,7 @@ export default function Story() {
             alt=""
             width={150}
             height={150}
-            className="absolute -top-10 -right-2 z-10 animate-spin-slow sm:-right-8"
+            className="absolute -top-10 right-2 z-10 size-28 animate-spin-slow sm:-right-8 sm:size-[150px]"
           />
           <ol className="relative rounded-[2.5rem] border-2 border-ink bg-ink p-7 text-paper shadow-[8px_8px_0_var(--color-mustard)] sm:p-10">
             <li className="eyebrow mb-6 text-mustard">A day in the kitchen</li>

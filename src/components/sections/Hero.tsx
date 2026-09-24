@@ -3,7 +3,10 @@
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { HERO_DONE, HERO_STEPS, heroStepAt } from "@/lib/hero";
+import { MENU, money } from "@/lib/menu";
 import { useScrollProgress } from "@/lib/useScrollProgress";
+
+const FOREMAN_PRICE = MENU[0].items.find((i) => i.id === "foreman")!.price;
 
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), { ssr: false });
 
@@ -77,7 +80,7 @@ export default function Hero() {
           {/* Step ticker */}
           <div className="absolute inset-x-5 bottom-6 grid items-end sm:inset-x-8 sm:bottom-8">
             <div
-              className={`col-start-1 row-start-1 max-w-sm rounded-3xl border-2 border-paper/15 bg-ink/90 p-5 transition-all duration-500 ${
+              className={`col-start-1 row-start-1 max-w-sm rounded-3xl border-2 border-paper/15 bg-ink/90 p-4 transition-all sm:p-5 duration-500 ${
                 step >= 0 && !done ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}
               aria-live="polite"
@@ -93,20 +96,20 @@ export default function Hero() {
               <p className="eyebrow text-mustard">
                 Layer {String(Math.max(step, 0) + 1).padStart(2, "0")} / {String(HERO_STEPS.length).padStart(2, "0")}
               </p>
-              <p className="display mt-1 text-3xl leading-none">{current.title}</p>
-              <p className="mt-2 text-sm text-paper/70">{current.body}</p>
+              <p className="display mt-1 text-2xl leading-none sm:text-3xl">{current.title}</p>
+              <p className="mt-2 text-xs text-paper/70 sm:text-sm">{current.body}</p>
             </div>
 
             <div
-              className={`col-start-1 row-start-1 max-w-xs justify-self-start rounded-3xl border-2 border-ink bg-paper p-5 text-ink shadow-[6px_6px_0_var(--color-mustard)] transition-all duration-500 ${
+              className={`col-start-1 row-start-1 max-w-xs w-full justify-self-start rounded-3xl border-2 border-ink bg-paper p-4 text-ink sm:w-auto sm:p-5 shadow-[6px_6px_0_var(--color-mustard)] transition-all duration-500 ${
                 done ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-8 opacity-0"
               }`}
             >
               <p className="eyebrow text-tomato">Stacked.</p>
-              <p className="display mt-1 text-4xl leading-none">The Foreman</p>
-              <p className="mt-2 text-sm text-ink/70">Two patties, two slices, seven layers of reasons to come back.</p>
-              <div className="mt-4 flex items-center justify-between">
-                <span className="display text-3xl">$14.50</span>
+              <p className="display mt-1 text-3xl leading-none sm:text-4xl">The Foreman</p>
+              <p className="mt-2 text-sm text-ink/70 max-sm:hidden">Two patties, two slices, seven layers of reasons to come back.</p>
+              <div className="mt-3 flex items-center justify-between sm:mt-4">
+                <span className="display text-3xl">{money(FOREMAN_PRICE)}</span>
                 <a href="#menu" className="btn bg-tomato py-2! text-paper">
                   Get one
                 </a>

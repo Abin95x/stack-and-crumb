@@ -34,7 +34,7 @@ export default function Nav() {
           scrolled ? "bg-paper text-ink" : "border-paper/20 bg-ink/85 text-paper"
         }`}
       >
-        <a href="#top" className="flex items-center gap-2.5" aria-label="Stack & Crumb home">
+        <a href="#top" className="flex items-center gap-2.5 select-none" aria-label="Stack & Crumb home">
           <Image src="/art/mascot.svg" alt="" width={40} height={44} priority />
           <span className="display text-[1.35rem] leading-none tracking-tight">
             Stack <span className="accent font-normal text-mustard">&amp;</span> Crumb

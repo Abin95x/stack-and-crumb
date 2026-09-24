@@ -49,7 +49,7 @@ float dt_snoise(vec3 v){
   return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
 }
 // Band-limited fbm: octaves finer than ~a pixel fade out instead of sparkling.
-float dt_fbm(vec3 p, float fw){float s=0.0;float a=0.5;for(int i=0;i<3;i++){s+=a*dt_snoise(p)*(1.0-smoothstep(0.2,0.55,fw));p=p*2.03+17.1;fw*=2.03;a*=0.5;}return s*1.15;}
+float dt_fbm(vec3 p, float fw){float s=0.0;float a=0.5;for(int i=0;i<3;i++){s+=a*dt_snoise(p)*(1.0-smoothstep(0.12,0.35,fw));p=p*2.03+17.1;fw*=2.03;a*=0.5;}return s*1.15;}
 vec3 dt_hash3(vec3 p){p=vec3(dot(p,vec3(127.1,311.7,74.7)),dot(p,vec3(269.5,183.3,246.1)),dot(p,vec3(113.5,271.9,124.6)));return fract(sin(p)*43758.5453);}
 // 2x2x2 cellular search: jittered points stay inside their cell, so the 8
 // cells around p are enough (vs 27 for the textbook version).
@@ -135,7 +135,7 @@ export function withDetail<T extends THREE.MeshStandardMaterial>(material: T, d:
         if (dtPoreAmt > 0.001) {
           vec3 pp = vDtPos * dtPoreScale;
           float w = dt_worley(pp);
-          float fade = 1.0 - smoothstep(0.15, 0.45, length(fwidth(pp)));
+          float fade = 1.0 - smoothstep(0.08, 0.25, length(fwidth(pp)));
           dtHole = (1.0 - smoothstep(0.08, 0.42, w)) * dtPoreAmt * fade;
           diffuseColor.rgb *= 1.0 - dtHole * 0.45;
         }

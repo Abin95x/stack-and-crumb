@@ -25,7 +25,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "foreman",
         name: "The Foreman",
-        price: 14.5,
+        price: 449,
         blurb: "Two smashed chuck patties, aged cheddar, half-sours, shaved red onion, butter lettuce, tomato, Crumb sauce.",
         tags: ["fan fave"],
         image: "/menu/foreman.png",
@@ -37,7 +37,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "sunny-side",
         name: "Sunny Side",
-        price: 15,
+        price: 469,
         blurb: "One patty, cheddar, crisp maple bacon and a jammy fried egg. Brunch, but make it lunch.",
         tags: ["new"],
         image: "/menu/sunny-side.png",
@@ -46,7 +46,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "garden-variety",
         name: "Garden Variety",
-        price: 13,
+        price: 379,
         blurb: "Beet & black bean patty, smoky mayo, pickles, tomato, red onion and a big leaf of lettuce.",
         tags: ["veg"],
         image: "/menu/garden-variety.png",
@@ -55,7 +55,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "plain-jane",
         name: "The Plain Jane",
-        price: 10.5,
+        price: 299,
         blurb: "One patty, one slice of cheese, a few pickles. Sometimes simple is the whole point.",
         image: "/menu/plain-jane.png",
         render: { type: "burger", layers: ["bunBottom", "patty", "cheese", "pickles", "bunTop"] },
@@ -70,7 +70,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "lemongrass-chicken",
         name: "Lemongrass Chicken",
-        price: 12.5,
+        price: 349,
         blurb: "Charred lemongrass chicken thigh, chili-lime mayo, quick-pickled carrot & daikon, cucumber, cilantro.",
         tags: ["fan fave"],
         image: "/menu/lemongrass-chicken.png",
@@ -79,7 +79,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "five-spice-pork",
         name: "Five-Spice Pork",
-        price: 13,
+        price: 379,
         blurb: "Sticky five-spice pork shoulder, extra bird's-eye chili, pickles, cucumber and a fistful of herbs.",
         tags: ["spicy"],
         image: "/menu/five-spice-pork.png",
@@ -88,7 +88,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "crispy-tofu",
         name: "Crispy Tofu",
-        price: 11.5,
+        price: 299,
         blurb: "Golden tofu glazed in soy-ginger, sesame mayo, pickled veg, cucumber and cilantro.",
         tags: ["veg"],
         image: "/menu/crispy-tofu.png",
@@ -104,14 +104,14 @@ export const MENU: MenuCategory[] = [
       {
         id: "crinkle-fries",
         name: "Crinkle Fries",
-        price: 5,
+        price: 149,
         blurb: "Twice-fried, ridged for maximum dip capacity. Seasoned with our smoked salt.",
         image: "/art/fries.svg",
       },
       {
         id: "pickle-plate",
         name: "Pickle Plate",
-        price: 4,
+        price: 99,
         blurb: "A rotating jar of whatever's been brining this week. Ask what's in it.",
         tags: ["veg"],
         image: "/art/pickle-jar.svg",
@@ -119,7 +119,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "sesame-slaw",
         name: "Sesame Slaw",
-        price: 4.5,
+        price: 129,
         blurb: "Red cabbage, carrot and scallion in a toasted sesame dressing.",
         tags: ["veg"],
         image: "/art/slaw.svg",
@@ -134,7 +134,7 @@ export const MENU: MenuCategory[] = [
       {
         id: "iced-coffee",
         name: "Condensed Milk Iced Coffee",
-        price: 5.5,
+        price: 179,
         blurb: "Dark-roast drip over sweet condensed milk and a mountain of ice.",
         tags: ["fan fave"],
         image: "/art/iced-coffee.svg",
@@ -142,14 +142,14 @@ export const MENU: MenuCategory[] = [
       {
         id: "lemongrass-soda",
         name: "Lemongrass Soda",
-        price: 4.5,
+        price: 139,
         blurb: "House lemongrass-lime syrup, sparkling water, a slap of mint.",
         image: "/art/lemongrass-soda.svg",
       },
       {
         id: "malt-shake",
         name: "Burnt Honey Malt Shake",
-        price: 7,
+        price: 229,
         blurb: "Vanilla soft-serve blended with malt and honey we cook almost too far.",
         tags: ["new"],
         image: "/art/shake.svg",
@@ -160,4 +160,7 @@ export const MENU: MenuCategory[] = [
 
 export const RENDERABLE = MENU.flatMap((c) => c.items).filter((i) => i.render);
 
-export const money = (n: number) => `$${n.toFixed(2)}`;
+const inr = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+
+/** Prices are whole rupees, e.g. ₹449 or ₹1,249. */
+export const money = (n: number) => inr.format(n);
