@@ -16,10 +16,10 @@
     <path d="M0 150 H600"/><path d="M175 0 V320"/><path d="M370 0 V310"/>
   </g>
   <g font-family="system-ui, sans-serif" font-weight="700" font-size="13" letter-spacing="2" fill="#15231a" opacity=".55">
-    <text x="20" y="142">FOUNDRY ROW</text>
-    <text x="165" y="300" transform="rotate(-90 165 300)">MILL ST</text>
-    <text x="236" y="228">OLD YARD PARK</text>
-    <text x="40" y="410">RIVER WALK</text>
+    <text x="20" y="142">PANAMPILLY AVE</text>
+    <text x="165" y="300" transform="rotate(-90 165 300)">5TH CROSS RD</text>
+    <text x="228" y="228">WALKWAY PARK</text>
+    <text x="40" y="410">BACKWATERS</text>
   </g>
   <g transform="translate(370 150)">
     <ellipse cx="0" cy="4" rx="22" ry="7" fill="#15231a" opacity=".2"/>

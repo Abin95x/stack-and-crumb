@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BagIcon } from "@/components/Bag";
+import { useCart } from "@/lib/cart";
 
 const LINKS = [
   { href: "#menu", label: "Menu" },
@@ -13,6 +15,7 @@ const LINKS = [
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const cart = useCart();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -55,9 +58,25 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <a href="#build" className="btn hidden bg-tomato py-2.5! text-paper sm:inline-flex">
+          <a href="#menu" className="btn hidden bg-tomato py-2.5! text-paper md:inline-flex">
             Order pickup
           </a>
+          <button
+            type="button"
+            onClick={() => cart.setOpen(true)}
+            className="relative grid size-11 place-items-center rounded-full border-2 border-current transition-colors hover:bg-mustard hover:text-ink"
+            aria-label={`Bag, ${cart.count} item${cart.count === 1 ? "" : "s"}`}
+          >
+            <BagIcon />
+            {cart.count > 0 && (
+              <span
+                key={cart.count}
+                className="absolute -top-1.5 -right-1.5 grid min-w-5 animate-[fade-up_.3s_ease] place-items-center rounded-full border-2 border-ink bg-tomato px-1 text-[0.7rem] font-bold text-paper"
+              >
+                {cart.count}
+              </span>
+            )}
+          </button>
           <button
             type="button"
             className="grid size-11 place-items-center rounded-full border-2 border-current lg:hidden"
@@ -89,7 +108,7 @@ export default function Nav() {
             </li>
           ))}
           <li className="p-2">
-            <a href="#build" onClick={() => setOpen(false)} className="btn w-full justify-center bg-tomato text-paper">
+            <a href="#menu" onClick={() => setOpen(false)} className="btn w-full justify-center bg-tomato text-paper">
               Order pickup
             </a>
           </li>

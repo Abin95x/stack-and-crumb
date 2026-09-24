@@ -5,8 +5,11 @@ const WORDS = ["Toast it", "Stack it", "Squash it", "Love it", "Repeat"];
 export default function Marquee() {
   const row = [...WORDS, ...WORDS];
   return (
-    <div className="relative z-10 -my-6 overflow-hidden py-6" aria-hidden>
-      <div className="-rotate-2 border-y-2 border-ink bg-mustard py-4">
+    // A 2° tilt lifts the band's ends by ~width × tan(2°) (≈35px at 1920px), so the
+    // clipping box needs more vertical room than that, and the band runs past both
+    // screen edges so its ends are never visible.
+    <div className="relative z-10 -my-14 overflow-x-clip py-14" aria-hidden>
+      <div className="-mx-[5vw] -rotate-2 border-y-2 border-ink bg-mustard py-4">
         <div className="flex w-max animate-marquee">
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0 items-center">

@@ -18,11 +18,20 @@ function Dropping({ kind, target, index }: { kind: LayerKind; target: number; in
   useFrame((_, rawDt) => {
     const dt = Math.min(rawDt, 1 / 30);
     const s = state.current;
-    const before = s.v;
-    // Critically-underdamped spring: falls, overshoots a touch, settles.
-    s.v += ((target - s.y) * 140 - s.v * 16) * dt;
-    s.y += s.v * dt;
-    if (before < -1.5 && s.v >= 0) s.squash = 1;
+    // Fall under gravity and stop dead on the layer below — no bounce, so it
+    // never sinks into it. The impact becomes a quick squash instead.
+    if (s.y > target) {
+      s.v -= 22 * dt;
+      s.y += s.v * dt;
+      if (s.y <= target) {
+        s.y = target;
+        s.squash = Math.min(1, -s.v / 6);
+        s.v = 0;
+      }
+    } else {
+      s.y = target;
+      s.v = 0;
+    }
     s.squash = damp(s.squash, 0, 9, dt);
     const g = ref.current!;
     g.position.y = s.y;

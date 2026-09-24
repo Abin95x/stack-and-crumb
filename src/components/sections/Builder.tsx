@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import type { BuiltLayer } from "@/components/three/BuilderScene";
 import type { LayerKind } from "@/components/three/Ingredients";
+import { useCart } from "@/lib/cart";
 import { money } from "@/lib/menu";
 
 const BuilderScene = dynamic(() => import("@/components/three/BuilderScene"), { ssr: false });
@@ -50,6 +51,7 @@ export default function Builder() {
   const [closed, setClosed] = useState(false);
   const [added, setAdded] = useState(false);
   const nextId = useRef(10);
+  const cart = useCart();
 
   const add = (kind: LayerKind) => {
     if (closed || layers.length >= MAX_LAYERS) return;
@@ -161,7 +163,16 @@ export default function Builder() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setAdded(true)}
+                  onClick={() => {
+                    cart.add({
+                      // Same recipe = same line in the bag.
+                      id: `custom:${layers.map((l) => l.kind).join(".")}`,
+                      name: nameFor(layers),
+                      price: total,
+                      note: ["Potato bun", ...layers.map((l) => byKind[l.kind].label)].join(" · "),
+                    });
+                    setAdded(true);
+                  }}
                   disabled={!closed}
                   className="btn bg-tomato text-paper disabled:opacity-40"
                   title={closed ? undefined : "Crown it first"}

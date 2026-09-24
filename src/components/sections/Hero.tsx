@@ -3,15 +3,18 @@
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { HERO_DONE, HERO_STEPS, heroStepAt } from "@/lib/hero";
+import { useCart } from "@/lib/cart";
+import { SITE } from "@/lib/site";
 import { MENU, money } from "@/lib/menu";
 import { useScrollProgress } from "@/lib/useScrollProgress";
 
-const FOREMAN_PRICE = MENU[0].items.find((i) => i.id === "foreman")!.price;
+const FOREMAN = MENU[0].items.find((i) => i.id === "foreman")!;
 
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), { ssr: false });
 
 export default function Hero() {
   const section = useRef<HTMLElement>(null);
+  const { add } = useCart();
   const [ui, setUi] = useState({ step: -1, done: false, started: false });
   const { step, done, started } = ui;
 
@@ -44,7 +47,7 @@ export default function Hero() {
         <div className="pointer-events-none relative z-10 mx-auto flex h-full max-w-7xl flex-col px-5 pt-28 pb-8 sm:px-8 sm:pt-32">
           <div className="max-w-xl">
             <p className="eyebrow mb-5 flex items-center gap-3 text-mustard">
-              <span className="h-px w-8 bg-mustard" /> Burgers &amp; long rolls · Riverside
+              <span className="h-px w-8 bg-mustard" /> Burgers &amp; long rolls · {SITE.city}
             </p>
             <h1 className="display text-[clamp(3.6rem,11vw,9.5rem)]">
               <span className="block">Built</span>
@@ -80,7 +83,7 @@ export default function Hero() {
           {/* Step ticker */}
           <div className="absolute inset-x-5 bottom-6 grid items-end sm:inset-x-8 sm:bottom-8">
             <div
-              className={`col-start-1 row-start-1 max-w-sm rounded-3xl border-2 border-paper/15 bg-ink/90 p-4 transition-all sm:p-5 duration-500 ${
+              className={`col-start-1 row-start-1 flex h-[8.75rem] w-full max-w-sm flex-col overflow-hidden rounded-3xl border-2 border-paper/15 bg-ink/90 p-4 transition-all sm:h-[10rem] sm:p-5 duration-500 ${
                 step >= 0 && !done ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
               }`}
               aria-live="polite"
@@ -96,8 +99,8 @@ export default function Hero() {
               <p className="eyebrow text-mustard">
                 Layer {String(Math.max(step, 0) + 1).padStart(2, "0")} / {String(HERO_STEPS.length).padStart(2, "0")}
               </p>
-              <p className="display mt-1 text-2xl leading-none sm:text-3xl">{current.title}</p>
-              <p className="mt-2 text-xs text-paper/70 sm:text-sm">{current.body}</p>
+              <p className="display mt-1 truncate text-2xl leading-none sm:text-3xl">{current.title}</p>
+              <p className="mt-2 line-clamp-2 text-xs text-paper/70 sm:text-sm">{current.body}</p>
             </div>
 
             <div
@@ -109,10 +112,14 @@ export default function Hero() {
               <p className="display mt-1 text-3xl leading-none sm:text-4xl">The Foreman</p>
               <p className="mt-2 text-sm text-ink/70 max-sm:hidden">Two patties, two slices, seven layers of reasons to come back.</p>
               <div className="mt-3 flex items-center justify-between sm:mt-4">
-                <span className="display text-3xl">{money(FOREMAN_PRICE)}</span>
-                <a href="#menu" className="btn bg-tomato py-2! text-paper">
+                <span className="display text-3xl">{money(FOREMAN.price)}</span>
+                <button
+                  type="button"
+                  onClick={() => add({ id: FOREMAN.id, name: FOREMAN.name, price: FOREMAN.price, image: FOREMAN.image })}
+                  className="btn bg-tomato py-2! text-paper"
+                >
                   Get one
-                </a>
+                </button>
               </div>
             </div>
           </div>

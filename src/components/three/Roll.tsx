@@ -12,7 +12,8 @@ export type RollVariant = "chicken" | "pork" | "tofu";
 
 
 const HINGE_Z = -ROLL_R * 0.9;
-const REST_Y = 0.3;
+/** Lid height once filled: clears the tallest filling (chili/drizzle top ≈ 0.48). */
+const REST_Y = 0.56;
 
 const mats = () =>
   cached("rollMaterials", () => ({
@@ -95,6 +96,8 @@ function spread(
   seed: number,
   window: readonly [number, number],
   place: (i: number, r: () => number) => { p: THREE.Vector3; q: THREE.Quaternion; s?: THREE.Vector3; color?: THREE.Color },
+  /** Spin while falling. Flat pieces (mayo, drizzle) fall level so they can't cut into the bread. */
+  tumble = true,
 ): Piece[] {
   const r = rng(seed);
   const [start, length] = window;
@@ -105,8 +108,9 @@ function spread(
       position: p,
       quaternion: q,
       scale: s ?? one,
-      from: p.clone().add(new THREE.Vector3((r() - 0.5) * 2.4, 3.2 + r() * 1.8, (r() - 0.5) * 2)),
-      fromQuaternion: randomQ(r),
+      // Straight down from above, never from behind: the open lid is back there.
+      from: p.clone().add(new THREE.Vector3((r() - 0.5) * 0.5, 3.2 + r() * 1.8, r() * 0.3)),
+      fromQuaternion: tumble ? randomQ(r, 1.2) : q.clone(),
       start: start + (count === 1 ? 0 : (i / (count - 1)) * (length - duration)),
       duration,
       color,
@@ -125,9 +129,9 @@ function inside(r: () => number, span = 0.78, width = 0.62) {
 function useFillings(variant: RollVariant) {
   return useMemo(() => {
     const T = ROLL_TIMELINE;
-    const mayo = spread(1, 1, T.mayo, () => ({ p: new THREE.Vector3(0, 0.012, 0), q: new THREE.Quaternion() }));
+    const mayo = spread(1, 1, T.mayo, () => ({ p: new THREE.Vector3(0, 0.045, 0), q: new THREE.Quaternion() }), false);
     const cucumber = spread(3, 2, T.cucumber, (i) => ({
-      p: new THREE.Vector3(0, 0.08, (i - 1) * 0.2),
+      p: new THREE.Vector3(0, 0.13, (i - 1) * 0.2),
       q: Q(0, (i - 1) * 0.03, 0),
     }));
 
@@ -138,13 +142,13 @@ function useFillings(variant: RollVariant) {
         const row = i % 2;
         const x = -1.5 + Math.floor(i / 2) * 0.5 + row * 0.2;
         return {
-          p: new THREE.Vector3(x, 0.19, row ? 0.14 : -0.14),
+          p: new THREE.Vector3(x, 0.26, row ? 0.14 : -0.14),
           q: Q(0, r() * 0.6, 0),
         };
       }
       const x = -1.55 + (i / (meatCount - 1)) * 3.1;
       return {
-        p: new THREE.Vector3(x, 0.16, (r() - 0.5) * 0.08),
+        p: new THREE.Vector3(x, 0.22, (r() - 0.5) * 0.08),
         q: Q((r() - 0.5) * 0.15, (r() - 0.5) * 0.4, -0.38),
         color: meatTint.clone().offsetHSL(0, 0, (r() - 0.5) * 0.06),
       };
@@ -155,7 +159,7 @@ function useFillings(variant: RollVariant) {
     const pickles = spread(130, 4, T.pickles, (i, r) => {
       const { x, z } = inside(r, 0.8, 0.7);
       return {
-        p: new THREE.Vector3(x, 0.25 + r() * 0.1, z),
+        p: new THREE.Vector3(x, 0.31 + r() * 0.08, z),
         q: Q((r() - 0.5) * 0.3, (r() - 0.5) * 0.9, (r() - 0.5) * 0.3),
         s: new THREE.Vector3(0.8 + r() * 0.5, 1, 1),
         color: i % 5 < 3 ? carrot.clone().offsetHSL(0, 0, (r() - 0.5) * 0.08) : daikon,
@@ -165,20 +169,20 @@ function useFillings(variant: RollVariant) {
     const chiliCount = variant === "pork" ? 16 : 10;
     const chili = spread(chiliCount, 5, T.chili, (_, r) => {
       const { x, z } = inside(r, 0.75, 0.6);
-      return { p: new THREE.Vector3(x, 0.36 + r() * 0.04, z), q: Q((r() - 0.5) * 0.7, 0, (r() - 0.5) * 0.7) };
+      return { p: new THREE.Vector3(x, 0.42 + r() * 0.02, z), q: Q((r() - 0.5) * 0.3, 0, (r() - 0.5) * 0.3) };
     });
 
+    // Sprigs lean forward out of the open side of the roll, under the lid.
     const cilantro = spread(13, 6, T.cilantro, (i, r) => {
       const x = -1.6 + (i / 12) * 3.2 + (r() - 0.5) * 0.15;
-      const side = i % 3 === 0 ? 0 : i % 3 === 1 ? 1 : -1;
       return {
-        p: new THREE.Vector3(x, 0.22, side * 0.25),
-        q: Q(side * (0.9 + r() * 0.4) + (side === 0 ? (r() - 0.5) * 0.6 : 0), r() * Math.PI, (r() - 0.5) * 0.6),
-        s: new THREE.Vector3().setScalar(1 + r() * 0.5),
+        p: new THREE.Vector3(x, 0.3 + r() * 0.04, 0.12 + r() * 0.14),
+        q: Q(1.05 + r() * 0.3, (r() - 0.5) * 0.8, (r() - 0.5) * 0.4),
+        s: new THREE.Vector3().setScalar(1 + r() * 0.4),
       };
     });
 
-    const sauceLine = spread(1, 7, T.drizzle, () => ({ p: new THREE.Vector3(0, 0.38, 0), q: new THREE.Quaternion() }));
+    const sauceLine = spread(1, 7, T.drizzle, () => ({ p: new THREE.Vector3(0, 0.44, 0), q: new THREE.Quaternion() }), false);
 
     return { mayo, cucumber, meat, pickles, chili, cilantro, sauceLine };
   }, [variant]);
@@ -204,10 +208,11 @@ export function Roll({
     const P = progress.current ?? 0;
     const open = easeInOutCubic(segment(P, ...ROLL_TIMELINE.open));
     const close = easeInOutCubic(segment(P, ...ROLL_TIMELINE.close));
-    const angle = lerp(lerp(0, 1.85, open), restAngle, close);
+    const angle = lerp(lerp(0, 2.2, open), restAngle, close);
     const h = hinge.current!;
     h.rotation.x = -angle;
-    h.position.y = REST_Y * open;
+    // Stay on the hinge while open; rise only as the lid closes over the fillings.
+    h.position.y = REST_Y * close;
   });
 
   return (

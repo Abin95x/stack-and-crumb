@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, DM_Sans, Instrument_Serif } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+import Bag from "@/components/Bag";
 import SmoothScroll from "@/components/SmoothScroll";
+import { CartProvider } from "@/lib/cart";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -14,7 +16,8 @@ const instrument = Instrument_Serif({
   variable: "--font-instrument",
   subsets: ["latin"],
   weight: "400",
-  style: ["normal", "italic"],
+  // Only the italic cut is used (the .accent style).
+  style: "italic",
 });
 
 const dmSans = DM_Sans({
@@ -25,7 +28,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Stack & Crumb — Burgers & long rolls, built layer by layer",
   description:
-    "Smashed burgers and crackly long rolls, stacked by hand. Bread baked before sunrise, pickles brined in-house, everything built to order.",
+    "Smashed burgers and crackly long rolls in Kochi, stacked by hand. Bread baked before sunrise, pickles brined in-house, everything built to order.",
 };
 
 export const viewport: Viewport = {
@@ -43,7 +46,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body suppressHydrationWarning>
         <SmoothScroll />
-        {children}
+        <CartProvider>
+          {children}
+          <Bag />
+        </CartProvider>
       </body>
     </html>
   );

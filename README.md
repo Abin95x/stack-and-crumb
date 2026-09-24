@@ -1,7 +1,7 @@
 # Stack & Crumb
 
 Concept site for a burger & long-roll shop, inspired by the structure of a sandwich-shop landing page
-but with original brand, copy and artwork. Every name, price, address and phone number is fictional.
+but with original brand, copy and artwork. Brand, menu and prices are illustrative; location and phone live in `src/lib/site.ts`.
 
 ## Run
 
@@ -53,6 +53,7 @@ Measure against a production build (`npm run build && npm start`); `next dev` is
 ## Images
 
 - `public/art/*.svg` — hand-written SVG illustrations (mascot, stamp, sides, drinks, map, pattern tile).
-- `public/menu/*.png` — menu photos rendered from the 3D models. In dev, open `/studio/<item-id>`
+- `public/menu/*.webp` — menu photos rendered from the 3D models (captured as PNG, converted with
+  `ffmpeg -i x.png -c:v libwebp -quality 86 -pix_fmt yuva420p x.webp`). In dev, open `/studio/<item-id>`
   (e.g. `/studio/foreman`) — it renders the item on a transparent canvas and sets `body[data-ready]`
   when it's safe to screenshot at 900×900 with a transparent background. The route 404s in production.

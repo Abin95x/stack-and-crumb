@@ -27,6 +27,12 @@
 html {
   background: var(--color-ink);
   scroll-behavior: auto;
+  /* No visible page scrollbar; wheel, touch and keyboard scrolling still work. */
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 html,

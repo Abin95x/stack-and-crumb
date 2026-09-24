@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SITE } from "@/lib/site";
 
 const HOURS = [
   ["Mon – Thu", "11am – 9pm"],
@@ -21,7 +22,7 @@ export default function Visit() {
           <div data-reveal className="relative overflow-hidden rounded-[2.5rem] border-2 border-ink shadow-[8px_8px_0_var(--color-ink)]">
             <Image
               src="/art/map.svg"
-              alt="Illustrated map: Stack & Crumb sits on the corner of Foundry Row and Mill Street, beside Old Yard Park"
+              alt={`Illustrated map of Stack & Crumb in ${SITE.address.join(", ")}`}
               width={600}
               height={440}
               className="h-full w-full object-cover"
@@ -34,9 +35,9 @@ export default function Visit() {
           <div data-reveal className="flex flex-col rounded-[2.5rem] border-2 border-ink bg-paper p-8 text-ink shadow-[8px_8px_0_var(--color-ink)]">
             <p className="eyebrow text-tomato">Address</p>
             <p className="display mt-2 text-3xl leading-tight">
-              88 Foundry Row
+              {SITE.address[0]}
               <br />
-              Riverside District
+              {SITE.address[1]}
             </p>
             <p className="eyebrow mt-8 text-tomato">Hours</p>
             <dl className="mt-3 divide-y-2 divide-dashed divide-ink/15">
@@ -48,14 +49,14 @@ export default function Visit() {
               ))}
             </dl>
             <p className="eyebrow mt-8 text-tomato">Call ahead</p>
-            <a href="tel:+15550142290" className="display mt-2 text-3xl hover:text-tomato">
-              (555) 014-2290
+            <a href={`tel:${SITE.phone.tel}`} className="display mt-2 text-3xl hover:text-tomato">
+              {SITE.phone.display}
             </a>
             <div className="mt-auto flex flex-wrap gap-3 pt-8">
-              <a href="#build" className="btn bg-tomato text-paper">
+              <a href="#menu" className="btn bg-tomato text-paper">
                 Order pickup
               </a>
-              <a href="#visit" className="btn bg-mustard text-ink">
+              <a href={SITE.mapsUrl} target="_blank" rel="noopener noreferrer" className="btn bg-mustard text-ink">
                 Get directions
               </a>
             </div>

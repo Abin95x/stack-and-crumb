@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { SITE } from "@/lib/site";
 
 export default function Footer() {
   const [joined, setJoined] = useState(false);
@@ -56,7 +57,8 @@ export default function Footer() {
             <div>
               <p className="eyebrow mb-4 text-mustard">Say hi</p>
               <ul className="space-y-2 text-paper/70">
-                <li><a className="hover:text-paper" href="#visit">Visit us</a></li>
+                <li><a className="hover:text-paper" href="#visit">Visit us in {SITE.city}</a></li>
+                <li><a className="hover:text-paper" href={`tel:${SITE.phone.tel}`}>{SITE.phone.display}</a></li>
                 <li><a className="hover:text-paper" href="#top">Instagram</a></li>
                 <li><a className="hover:text-paper" href="#top">TikTok</a></li>
               </ul>
@@ -72,7 +74,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-wrap justify-between gap-4 py-8 text-xs text-paper/45">
           <p>© {new Date().getFullYear()} Stack &amp; Crumb. Built layer by layer.</p>
-          <p>Concept site — names, prices, address and phone number are fictional.</p>
+          <p>Concept site — brand, menu and prices are illustrative.</p>
         </div>
       </div>
     </footer>

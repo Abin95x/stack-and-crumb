@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useRef, type RefObject } from "react";
 import * as THREE from "three";
-import { clamp01, easeOutBack, easeOutCubic } from "@/lib/anim";
+import { clamp01, easeOutCubic } from "@/lib/anim";
 
 // Scratch objects shared by every instance update (render loop is single-threaded).
 const m = new THREE.Matrix4();
@@ -60,8 +60,6 @@ export function FlyingInstances({
       const t = clamp01((P - p.start) / p.duration);
       const e = easeOutCubic(t);
       v.lerpVectors(p.from, p.position, e);
-      // A little landing bounce on the vertical axis only.
-      v.y = p.from.y + (p.position.y - p.from.y) * easeOutBack(t, 1.1);
       q.slerpQuaternions(p.fromQuaternion, p.quaternion, e);
       s.copy(p.scale).multiplyScalar(t <= 0 ? 0 : Math.min(1, t * 4));
       m.compose(v, q, s);

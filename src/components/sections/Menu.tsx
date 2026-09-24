@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { BagIcon } from "@/components/Bag";
+import { useCart } from "@/lib/cart";
 import { MENU, money, type MenuItem } from "@/lib/menu";
 
 const CARD_TINTS = ["bg-mustard", "bg-tomato/80", "bg-pickle/70", "bg-crust/60"];
@@ -15,6 +17,7 @@ const TAG_STYLE: Record<string, string> = {
 
 function Card({ item, index }: { item: MenuItem; index: number }) {
   const photo = !!item.render;
+  const { add } = useCart();
   return (
     <article className="group flex flex-col overflow-hidden rounded-[2rem] border-2 border-ink bg-paper shadow-[6px_6px_0_var(--color-ink)] transition-transform duration-300 hover:-translate-y-1 hover:-rotate-[0.6deg]">
       <div className={`relative aspect-[5/4] overflow-hidden border-b-2 border-ink ${CARD_TINTS[index % CARD_TINTS.length]}`}>
@@ -45,7 +48,15 @@ function Card({ item, index }: { item: MenuItem; index: number }) {
           <h3 className="display text-3xl leading-none">{item.name}</h3>
           <span className="display shrink-0 rounded-full bg-ink px-3 py-1 text-lg text-mustard">{money(item.price)}</span>
         </div>
-        <p className="mt-3 text-[0.95rem] leading-relaxed text-ink/70">{item.blurb}</p>
+        <p className="mt-3 mb-5 text-[0.95rem] leading-relaxed text-ink/70">{item.blurb}</p>
+        <button
+          type="button"
+          onClick={() => add({ id: item.id, name: item.name, price: item.price, image: item.image })}
+          className="btn mt-auto self-start bg-mustard py-2! text-ink"
+          aria-label={`Add ${item.name} to bag`}
+        >
+          <BagIcon className="size-4" /> Add to bag
+        </button>
       </div>
     </article>
   );
@@ -68,7 +79,7 @@ export default function Menu() {
             </h2>
           </div>
           <p data-reveal className="max-w-sm text-lg text-ink/70">
-            Thirteen things, done properly. Every burger and roll photo here was rendered from the same kitchen you
+            Fifteen things, done properly. Every burger and roll photo here was rendered from the same kitchen you
             just scrolled through.
           </p>
         </div>
