@@ -59,8 +59,8 @@ export default function Bag() {
 
   return (
     <>
-      {/* "Added" toast */}
-      <div data-overlay className="pointer-events-none fixed right-4 bottom-4 z-50 flex flex-col items-end gap-2 sm:right-6 sm:bottom-6">
+      {/* "Added" toast; sits left of the scroll buttons (size-10 + gap) so they don't cover it. */}
+      <div data-overlay className="pointer-events-none fixed right-16 bottom-4 z-50 sm:right-18 sm:bottom-6">
         <p
           role="status"
           className={`rounded-full border-2 border-ink bg-mustard px-4 py-2 text-sm font-semibold text-ink shadow-[3px_3px_0_var(--color-ink)] transition-all duration-300 ${
