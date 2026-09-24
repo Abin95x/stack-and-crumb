@@ -4,7 +4,7 @@ Next.js 16 (App Router, TypeScript) · Tailwind CSS 4 · three.js via @react-thr
 GSAP ScrollTrigger · Lenis smooth scroll.
 
 ## Live 
-[https://stackandcrumb.rendersarc.com/](https://stackandcrumb.rendersarc.com/)
+[Stack and Crumb](https://stackandcrumb.rendersarc.com/)
 
 ## Run
 
