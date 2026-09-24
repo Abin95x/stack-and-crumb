@@ -51,7 +51,7 @@ export default function ScrollButtons() {
   };
 
   return (
-    <div className="pointer-events-none fixed left-4 bottom-4 z-50 flex flex-col gap-2 sm:left-6 sm:bottom-6">
+    <div className="pointer-events-none fixed right-4 bottom-4 z-50 flex flex-col gap-2 sm:right-6 sm:bottom-6">
       <button
         type="button"
         onClick={scrollToTop}

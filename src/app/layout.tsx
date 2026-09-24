@@ -5,6 +5,7 @@ import "./globals.css";
 import Bag from "@/components/Bag";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollButtons from "@/components/ScrollButtons";
+import Loader from "@/components/Loader";
 import { CartProvider } from "@/lib/cart";
 
 const bricolage = Bricolage_Grotesque({
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll />
         <CartProvider>
           {children}
+          <Loader />
           <Bag />
           <ScrollButtons />
         </CartProvider>
