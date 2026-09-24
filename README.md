@@ -1,3 +1,8 @@
+## Stack
+
+Next.js 16 (App Router, TypeScript) · Tailwind CSS 4 · three.js via @react-three/fiber + drei ·
+GSAP ScrollTrigger · Lenis smooth scroll.
+
 ## Run
 
 ```bash
@@ -5,11 +10,6 @@ npm install
 npm run dev     # http://localhost:3000
 npm run build && npm start
 ```
-
-## Stack
-
-Next.js 16 (App Router, TypeScript) · Tailwind CSS 4 · three.js via @react-three/fiber + drei ·
-GSAP ScrollTrigger · Lenis smooth scroll.
 
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a03b3385-28fe-4db8-af63-303a9020d078" />
